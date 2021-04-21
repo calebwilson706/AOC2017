@@ -26,7 +26,7 @@ getNextIndexPart2 currentIndex = rem (currentIndex + div (length myNumberList) 2
 
 
 solution :: (Int -> Int, Int) -> Int
-solution (operatorForEachDigit, extraAddOn) = sum(map operatorForEachDigit [1 .. length myNumberList - 1]) + extraAddOn
+solution (operatorForEachDigit, extraAddOn) = foldr (\next acc -> acc + operatorForEachDigit next) 0 [1 .. length myNumberList - 1] + extraAddOn
 
 main :: IO()
 main = print (solution(getCurrentDigitImpactPart2, 0))
