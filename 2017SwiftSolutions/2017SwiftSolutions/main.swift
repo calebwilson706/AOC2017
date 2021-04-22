@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import PuzzleBox
 
-print("Hello, World!")
+let today = Day1()
+timeTest(call: today.part2, num: 1)
+
 
