@@ -21,8 +21,8 @@ getExtraNumber :: Int -> Int
 getExtraNumber 1 = 7
 getExtraNumber 2 = 0
 
-solution :: Int -> Int
-solution part = foldr (\next accumulator -> accumulator + getCurrentDigitImpact(part, next)) 0 [1 .. length myNumberList - 1] + getExtraNumber part
+solutionForPart :: Int -> Int
+solutionForPart part = foldr (\next accumulator -> accumulator + getCurrentDigitImpact(part, next)) 0 [1 .. length myNumberList - 1] + getExtraNumber part
 
 main :: IO()
-main = print (solution 1)
+main = print (solutionForPart 1)
