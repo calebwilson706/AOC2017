@@ -1,3 +1,3 @@
 fun main(args: Array<String>) {
-    println("Hello World!")
+    Day3.part2()
 }
