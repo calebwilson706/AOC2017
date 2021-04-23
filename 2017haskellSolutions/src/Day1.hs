@@ -1,3 +1,5 @@
+module Day1 where
+
 import System.IO
 import Data.Char(digitToInt)
 
