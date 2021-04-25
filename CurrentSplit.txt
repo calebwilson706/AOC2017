@@ -1,5 +1,5 @@
 Kotlin -> 3
 
-Swift -> 2
+Swift -> 2, 5
 
 Haskell -> 1, 4
