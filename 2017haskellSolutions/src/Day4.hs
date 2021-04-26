@@ -8,7 +8,6 @@ day4FilePath = "/Users/calebjw/Documents/Developer/AdventOfCode/2017/Inputs/Day4
 
 calculateAmountOfValidPasswords :: ([String], Int)  -> Int
 calculateAmountOfValidPasswords (passwords, part) = length  $ filter (passwordValidator part) passwords
-    ---foldr (\nextLine accumulator -> accumulator + if passwordValidator part nextLine then 0 else 1) 0 passwords
 
 doesLineNotContainRepeats :: String -> Bool
 doesLineNotContainRepeats line = length wordsInLine == length (nub wordsInLine)
