@@ -107,10 +107,13 @@ object Day3 {
             Directions.UP -> Pair(original.first, original.second + 1)
         }
     }
+
+    enum class Directions {
+        RIGHT,DOWN,LEFT,UP;
+    }
+
 }
 
 
-enum class Directions {
-    RIGHT,DOWN,LEFT,UP;
-}
+
 
