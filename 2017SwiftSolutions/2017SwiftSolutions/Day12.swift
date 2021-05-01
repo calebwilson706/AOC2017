@@ -27,13 +27,11 @@ class Day12 : PuzzleClass {
         var communications = getInitialAdjacencyListMap()
         var counter = 0
         
-        (0...1999).forEach {
-            if communications[$0] != nil {
-                for relative in Set(getThoseCommunicating(with: $0, in: communications, currentFound: [])) {
-                    communications.removeValue(forKey: relative)
-                }
-                counter += 1
+        while !communications.isEmpty {
+            for relative in getThoseCommunicating(with: communications.keys.first!, in: communications, currentFound: []) {
+                communications.removeValue(forKey: relative)
             }
+            counter += 1
         }
         
         print(counter)
@@ -42,7 +40,7 @@ class Day12 : PuzzleClass {
     func getThoseCommunicating(with number : Int, in map : [Int : [Int]], currentFound : [Int]) -> [Int] {
         let directCommunicators = map[number]!
         var thoseCommunicating = directCommunicators
-        let thoseFound = currentFound + [number]
+        let thoseFound = currentFound + [number] + directCommunicators
         
         directCommunicators.filter { !currentFound.contains($0) }.forEach {
             thoseCommunicating += getThoseCommunicating(with: $0, in: map, currentFound: thoseFound)

@@ -9,6 +9,6 @@ import Foundation
 import PuzzleBox
 
 let today = Day12()
-today.part2()
+today.part1()
 
 
