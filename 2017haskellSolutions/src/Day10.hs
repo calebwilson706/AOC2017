@@ -80,10 +80,15 @@ part2GetChunksOfSparseHash :: [Int] -> [[Int]]
 part2GetChunksOfSparseHash = chunksOf 16
 
 --main parts
+knotHash :: [Int] -> [Char]
+knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash (snd (getEndListHelper(numbersToHash, 64))))
+
+part1 :: IO ()
 part1 = print(head foundList * foundList!!1)
         where (endIndex, foundList) = getEndList 1
 
-part2 = print(concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash(snd (getEndList 2))))
+part2 :: IO()
+part2 = print(knotHash part2ChainLengthsOneRound)
 
 
 --Day 14 get input hashes
@@ -94,11 +99,8 @@ day14StringInput = "uugsqrei-"
 getAsciiListsForDay14 :: [[Int]]
 getAsciiListsForDay14 = map (map ord . (append day14StringInput . show)) [0..127]
 
-knotHash :: (a, [Int]) -> [Char]
-knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash(snd numbersToHash))
-
 finalDay14Hashes :: [[Char]]
-finalDay14Hashes = map (\a -> knotHash ( getEndListHelper(a, 64))) getAsciiListsForDay14
+finalDay14Hashes = map knotHash getAsciiListsForDay14
 
 main :: IO ()
-main = print finalDay14Hashes
+main = part2
