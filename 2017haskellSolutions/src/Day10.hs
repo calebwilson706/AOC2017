@@ -72,12 +72,12 @@ integerToHexString :: Int -> String
 integerToHexString a = (if length mainPart == 1 then "0" else "") ++ mainPart
         where mainPart = showHex a ""
 
-part2GetChunksOfSparseHash :: [Int] -> [[Int]]
-part2GetChunksOfSparseHash = chunksOf 16
+getChunksOfSparseHash :: [Int] -> [[Int]]
+getChunksOfSparseHash = chunksOf 16
 
 --main parts
 knotHash :: [Int] -> [Char]
-knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash (snd (getSparseHashUsing(numbersToHash, 64))))
+knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (getChunksOfSparseHash (snd (getSparseHashUsing(numbersToHash, 64))))
 
 part1 :: IO ()
 part1 = print(head foundList * foundList!!1)
