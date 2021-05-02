@@ -61,12 +61,8 @@ applyOneCycle (currentIndex, currentList, indexOfChainLength, chainLengthInput) 
                        | otherwise = currentList
 
 --use of functions above
-getEndListHelper :: ([Int], Int)  -> (Int, [Int])
-getEndListHelper (listOfChainLengths, amountOfCycles) = foldr (\ chainLengthIndex (currentIndex, accumulatingList) -> applyOneCycle(currentIndex, accumulatingList, chainLengthIndex, listOfChainLengths)) (0, [0..255]) (reverse [ 0 .. length listOfChainLengths * amountOfCycles - 1])
-
-getEndList :: Int -> (Int, [Int])
-getEndList 1 = getEndListHelper(chainLengthsPart1, 1)
-getEndList 2 = getEndListHelper(part2ChainLengthsOneRound, 64)
+getSparseHashUsing :: ([Int], Int)  -> (Int, [Int])
+getSparseHashUsing (listOfChainLengths, amountOfCycles) = foldr (\ chainLengthIndex (currentIndex, accumulatingList) -> applyOneCycle(currentIndex, accumulatingList, chainLengthIndex, listOfChainLengths)) (0, [0..255]) (reverse [ 0 .. length listOfChainLengths * amountOfCycles - 1])
 
 --part 2 get final hash
 getDenaryFromChunk :: [Int] -> Int
@@ -81,15 +77,17 @@ part2GetChunksOfSparseHash = chunksOf 16
 
 --main parts
 knotHash :: [Int] -> [Char]
-knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash (snd (getEndListHelper(numbersToHash, 64))))
+knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash (snd (getSparseHashUsing(numbersToHash, 64))))
 
 part1 :: IO ()
 part1 = print(head foundList * foundList!!1)
-        where (endIndex, foundList) = getEndList 1
+        where (endIndex, foundList) = getSparseHashUsing(chainLengthsPart1, 1)
 
 part2 :: IO()
 part2 = print(knotHash part2ChainLengthsOneRound)
 
+main :: IO ()
+main = print finalDay14Hashes
 
 --Day 14 get input hashes
 
@@ -97,10 +95,7 @@ day14StringInput :: [Char]
 day14StringInput = "uugsqrei-"
 
 getAsciiListsForDay14 :: [[Int]]
-getAsciiListsForDay14 = map (map ord . (append day14StringInput . show)) [0..127]
+getAsciiListsForDay14 = map ((\a -> append a [17, 31, 73, 47, 23]) . (map ord . (append day14StringInput . show))) [0..127]
 
 finalDay14Hashes :: [[Char]]
 finalDay14Hashes = map knotHash getAsciiListsForDay14
-
-main :: IO ()
-main = part2
