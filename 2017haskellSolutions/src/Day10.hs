@@ -76,15 +76,29 @@ integerToHexString :: Int -> String
 integerToHexString a = (if length mainPart == 1 then "0" else "") ++ mainPart
         where mainPart = showHex a ""
 
-part2GetChunksOfSparseHash :: [[Int]]
-part2GetChunksOfSparseHash = chunksOf 16 endList
-        where (endIndex, endList) = getEndList 2
+part2GetChunksOfSparseHash :: [Int] -> [[Int]]
+part2GetChunksOfSparseHash = chunksOf 16
 
 --main parts
 part1 = print(head foundList * foundList!!1)
         where (endIndex, foundList) = getEndList 1
 
-part2 = print(concatMap (integerToHexString . getDenaryFromChunk) part2GetChunksOfSparseHash)
+part2 = print(concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash(snd (getEndList 2))))
+
+
+--Day 14 get input hashes
+
+day14StringInput :: [Char]
+day14StringInput = "uugsqrei-"
+
+getAsciiListsForDay14 :: [[Int]]
+getAsciiListsForDay14 = map (map ord . (append day14StringInput . show)) [0..127]
+
+knotHash :: (a, [Int]) -> [Char]
+knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (part2GetChunksOfSparseHash(snd numbersToHash))
+
+finalDay14Hashes :: [[Char]]
+finalDay14Hashes = map (\a -> knotHash ( getEndListHelper(a, 64))) getAsciiListsForDay14
 
 main :: IO ()
-main = part2
+main = print finalDay14Hashes
