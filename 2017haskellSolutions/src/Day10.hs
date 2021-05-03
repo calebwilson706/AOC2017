@@ -5,18 +5,11 @@ import Data.Char
 import Data.Bits
 
 ---inputs
-
 chainLengthsPart1 :: [Int]
 chainLengthsPart1 = [94,84,0,79,2,27,81,1,123,93,218,23,103,255,254,243]
 
 chainLengthsAsString :: [Char]
 chainLengthsAsString = "94,84,0,79,2,27,81,1,123,93,218,23,103,255,254,243"
-
-myAsciiNumbers :: [Int]
-myAsciiNumbers = map ord chainLengthsAsString
-
-part2ChainLengthsOneRound :: [Int]
-part2ChainLengthsOneRound = append myAsciiNumbers [17, 31, 73, 47, 23]
 
 --helpers
 chunksOf :: Int -> [a] -> [[a]]
@@ -31,7 +24,6 @@ append xs ys = foldr (:) ys xs
 rotateLeft :: Int -> [a] -> [a]
 rotateLeft _ [] = []
 rotateLeft n xs = zipWith const (drop n (cycle xs)) xs
-
 
 --hashing 
 getInUsableForm :: ([Int], Int) -> [Int]
@@ -76,26 +68,27 @@ getChunksOfSparseHash :: [Int] -> [[Int]]
 getChunksOfSparseHash = chunksOf 16
 
 --main parts
-knotHash :: [Int] -> [Char]
-knotHash numbersToHash = concatMap (integerToHexString . getDenaryFromChunk) (getChunksOfSparseHash (snd (getSparseHashUsing(numbersToHash, 64))))
+knotHash :: String  -> [Char]
+knotHash stringToHash = concatMap (integerToHexString . getDenaryFromChunk) (getChunksOfSparseHash (snd (getSparseHashUsing(chainLengths, 64))))
+         where chainLengths = append (map ord stringToHash) [17, 31, 73, 47, 23]
 
 part1 :: IO ()
 part1 = print(head foundList * foundList!!1)
         where (endIndex, foundList) = getSparseHashUsing(chainLengthsPart1, 1)
 
 part2 :: IO()
-part2 = print(knotHash part2ChainLengthsOneRound)
+part2 = print(knotHash chainLengthsAsString)
 
 main :: IO ()
-main = print finalDay14Hashes
+main = part2
 
 --Day 14 get input hashes
 
 day14StringInput :: [Char]
 day14StringInput = "uugsqrei-"
 
-getAsciiListsForDay14 :: [[Int]]
-getAsciiListsForDay14 = map ((\a -> append a [17, 31, 73, 47, 23]) . (map ord . (append day14StringInput . show))) [0..127]
+getAsciiListsForDay14 :: [String]
+getAsciiListsForDay14 = map (append day14StringInput . show ) [0..127]
 
 finalDay14Hashes :: [[Char]]
 finalDay14Hashes = map knotHash getAsciiListsForDay14
