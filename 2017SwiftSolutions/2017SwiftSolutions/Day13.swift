@@ -30,7 +30,7 @@ class Day13 : PuzzleClass {
         let layerDepths = getMapOfLayerToDepth()
         print((0 ..< layerDepths.keys.max()!).reduce(0, { accumulator, scannerLocation in
             let depthOfLayer = layerDepths[scannerLocation] ?? 0
-            let severityOfThisLayer = (scannerLocation % (2*(depthOfLayer - 1))) == 0 ? scannerLocation*depthOfLayer : 0
+            let severityOfThisLayer = isScannerAtTop(scannerLocation: scannerLocation, depthOfLayer: depthOfLayer) ? scannerLocation*depthOfLayer : 0
             return (accumulator + severityOfThisLayer)
         }))
     }
@@ -44,9 +44,12 @@ class Day13 : PuzzleClass {
     
     private func doesDelayAvoidBeingCaught(delay : Int, layerDepths : [Int : Int]) -> Bool {
         !(0 ... layerDepths.keys.max()!).contains { myLocation in
-            let depthOfLayer = layerDepths[myLocation] ?? 0
-            return ((myLocation + delay) % (2*(depthOfLayer - 1))) == 0 && depthOfLayer != 0
+            isScannerAtTop(scannerLocation: delay + myLocation, depthOfLayer: layerDepths[myLocation] ?? 0)
         }
+    }
+    
+    private func isScannerAtTop(scannerLocation : Int, depthOfLayer : Int) -> Bool {
+        (scannerLocation % (2*(depthOfLayer - 1))) == 0 && depthOfLayer != 0
     }
     
 }

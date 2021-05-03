@@ -53,10 +53,13 @@ applyOneCycle (currentIndex, currentList, indexOfChainLength, chainLengthInput) 
                        | otherwise = currentList
 
 --use of functions above
-getSparseHashUsing :: ([Int], Int)  -> (Int, [Int])
-getSparseHashUsing (listOfChainLengths, amountOfCycles) = foldr (\ chainLengthIndex (currentIndex, accumulatingList) -> applyOneCycle(currentIndex, accumulatingList, chainLengthIndex, listOfChainLengths)) (0, [0..255]) (reverse [ 0 .. length listOfChainLengths * amountOfCycles - 1])
+
+getSparseHashUsing :: ([Int], Int)  -> [Int]
+getSparseHashUsing (listOfChainLengths, amountOfCycles) = snd $ foldr (\ chainLengthIndex (currentIndex, accumulatingList) -> applyOneCycle(currentIndex, accumulatingList, chainLengthIndex, listOfChainLengths)) (0, [0..255]) indicesOfChainLengths
+        where indicesOfChainLengths = reverse [ 0 .. length listOfChainLengths * amountOfCycles - 1]
 
 --part 2 get final hash
+
 getDenaryFromChunk :: [Int] -> Int
 getDenaryFromChunk chunk = foldl xor (head chunk) (drop 1 chunk)
 
@@ -69,12 +72,13 @@ getChunksOfSparseHash = chunksOf 16
 
 --main parts
 knotHash :: String  -> [Char]
-knotHash stringToHash = concatMap (integerToHexString . getDenaryFromChunk) (getChunksOfSparseHash (snd (getSparseHashUsing(chainLengths, 64))))
+knotHash stringToHash = concatMap (integerToHexString . getDenaryFromChunk) finalSparseHashChunks
          where chainLengths = append (map ord stringToHash) [17, 31, 73, 47, 23]
+               finalSparseHashChunks = getChunksOfSparseHash $ getSparseHashUsing(chainLengths, 64)
 
 part1 :: IO ()
 part1 = print(head foundList * foundList!!1)
-        where (endIndex, foundList) = getSparseHashUsing(chainLengthsPart1, 1)
+        where foundList = getSparseHashUsing(chainLengthsPart1, 1)
 
 part2 :: IO()
 part2 = print(knotHash chainLengthsAsString)
