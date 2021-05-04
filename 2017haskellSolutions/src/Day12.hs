@@ -1,5 +1,4 @@
 module Day12 where
-
 import Data.Char
 import Data.List
 day12FilePath = "/Users/calebjw/Documents/Developer/AdventOfCode/2017/Inputs/Day12Input.txt"
