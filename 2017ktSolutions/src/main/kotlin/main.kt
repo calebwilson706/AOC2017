@@ -1,5 +1,7 @@
-
+import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
-    Day15.part2()
+    print(measureTimeMillis {
+        Day18.part2()
+    })
 }
