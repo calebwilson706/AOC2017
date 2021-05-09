@@ -1,7 +1,7 @@
 import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
-    print(measureTimeMillis {
-        Day18.part2()
-    })
+    Day20.part2()
 }
+
+//923 is too high
