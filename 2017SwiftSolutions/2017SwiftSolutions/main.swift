@@ -9,6 +9,5 @@ import Foundation
 import PuzzleBox
 
 let today = Day21()
-//print(today.splitIntoSmallestChunks(pattern: "##.##./#..#../....../##.##./#..#../......"))
-//print(today.reassemblePatternFromChunks(chunks: ["##/#.", ".#/.#", "#./..", "../##", "../.#", "../#.", "#./..", ".#/..", "../.."]))
 today.part2()
+
