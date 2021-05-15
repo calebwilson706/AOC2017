@@ -2,20 +2,20 @@ object Day25 {
 
     fun part1() {
         val amountOfSteps = 12964419
-        val state = DiagnosticsState('A',0, mutableMapOf())
+        val state = DiagnosticsState('A',0, mutableSetOf())
 
         (0 until amountOfSteps).forEach { _ ->
             state.updateState()
         }
 
-        print(state.currentList.values.count { it })
+        print(state.tape.size)
     }
 
-    private data class DiagnosticsState(var currentState: Char, var currentIndex: Int, val currentList : MutableMap<Int, Boolean>) {
+    private data class DiagnosticsState(var currentState: Char, var currentIndex: Int, val tape : MutableSet<Int>) {
         fun updateState() {
             val stateToUse = states[currentState]!!
-            val instructionsToUse = stateToUse.getInstructions(currentList[currentIndex] ?: false)
-            currentList[currentIndex] = instructionsToUse.newValueAtIndex.toBool()
+            val instructionsToUse = stateToUse.getInstructions(tape.contains(currentIndex))
+            if (instructionsToUse.newValueAtIndex.toBool()) tape.add(currentIndex) else tape.remove(currentIndex)
             currentIndex = instructionsToUse.transformIndex(currentIndex)
             currentState = instructionsToUse.nextState
         }
