@@ -8,6 +8,6 @@
 import Foundation
 import PuzzleBox
 
-let today = Day21()
+let today = Day24()
 today.part2()
 
